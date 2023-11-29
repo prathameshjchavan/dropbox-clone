@@ -16,7 +16,7 @@ const DashboardPage = async () => {
 		return {
 			id: doc.id,
 			fileName: fileName ?? doc.id,
-			timestamp: new Date(timestamp.seconds * 1000) || undefined,
+			timestamp: new Date(timestamp?.seconds * 1000) || undefined,
 			fullName,
 			downloadURL,
 			type,
