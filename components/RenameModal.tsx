@@ -37,12 +37,17 @@ const RenameModal = () => {
 			await updateDoc(doc(db, "users", user.id, "files", fileId), {
 				fileName: input,
 			});
-		} catch (error) {
-			console.log(error);
-		} finally {
+
 			toast.success("Renamed Successfully", {
 				id: toastId,
 			});
+		} catch (error) {
+			console.log(error);
+
+			toast.error("Renaming Failed", {
+				id: toastId,
+			});
+		} finally {
 			setInput("");
 			setIsRenameModalOpen(false);
 		}
