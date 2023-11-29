@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 import { FileType } from "@/typings";
 import { Button } from "../ui/button";
-import { TrashIcon } from "lucide-react";
+import { PencilIcon, TrashIcon } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -36,6 +36,10 @@ export function DataTable<TData, TValue>({
 
 	const openDeleteModal = (id: string) => {
 		console.log("Hello");
+	};
+
+	const openRenameModal = (id: string, name: string) => {
+		console.log("Rename");
 	};
 
 	return (
@@ -68,7 +72,36 @@ export function DataTable<TData, TValue>({
 							>
 								{row.getVisibleCells().map((cell) => (
 									<TableCell key={cell.id}>
-										{flexRender(cell.column.columnDef.cell, cell.getContext())}
+										{cell.column.id === "timestamp" ? (
+											<div className="flex flex-col">
+												<div className="text-sm line-clamp-1 whitespace-nowrap">
+													{(cell.getValue() as Date)
+														.toLocaleDateString()
+														.replaceAll("/", "-")}
+												</div>
+
+												<div className="text-sm text-gray-500">
+													{(cell.getValue() as Date).toLocaleTimeString()}
+												</div>
+											</div>
+										) : cell.column.id === "fileName" ? (
+											<p
+												onClick={() =>
+													openRenameModal(
+														(row.original as FileType).id,
+														(row.original as FileType).fileName
+													)
+												}
+												className="underline flex items-center text-blue-500 hover:cursor-pointer"
+											>
+												<span className="line-clamp-1">
+													{cell.getValue() as string}{" "}
+												</span>
+												<PencilIcon size={15} className="ml-2 flex-shrink-0" />
+											</p>
+										) : (
+											flexRender(cell.column.columnDef.cell, cell.getContext())
+										)}
 									</TableCell>
 								))}
 
