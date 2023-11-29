@@ -74,6 +74,7 @@ export function DeleteModal() {
 					<Button
 						type="submit"
 						size="sm"
+						variant="destructive"
 						className="px-3 flex-1"
 						onClick={() => deleteFile()}
 					>
